@@ -6,7 +6,8 @@ def create_table(metadata, table_name,
         raise ValueError(f"Ошибка: Имя таблицы {table_name} "
                          f"уже использовано")
 
-    columns = ["ID:int"] + columns
+    if "ID:int" not in columns:
+        columns = ["ID:int"] + columns
     dict_columns = {}
     for column in columns:
         name, type_column = column.split(":")
