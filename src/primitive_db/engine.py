@@ -26,14 +26,14 @@ from primitive_db.utils import (
     save_table_data,
 )
 
-filepath = "db_meta.json"
+META_FILE = "db_meta.json"
 
 def run():
     print_help()
     cash = create_cacher()
 
     while True:
-        metadata = load_metadata(filepath)
+        metadata = load_metadata(META_FILE)
         user_input = prompt.string("Введите команду: ")
         args = shlex.split(user_input)
         command = args[0]
@@ -45,7 +45,7 @@ def run():
                 metadata = create_table(metadata, table_name, columns)
                 if metadata is None:
                     continue
-                save_metadata(filepath, metadata)
+                save_metadata(META_FILE, metadata)
                 print(f"Таблица \"{table_name}\" успешно создана"
                       f"  со столбцами: {", ".join(f"{keys}:{values}" 
                       for keys, values in metadata[table_name].items())}")
@@ -54,7 +54,7 @@ def run():
                 metadata = drop_table(metadata, table_name)
                 if metadata is None:
                     continue
-                save_metadata(filepath, metadata)
+                save_metadata(META_FILE, metadata)
                 cash = create_cacher()
                 print(f"Таблица \"{table_name}\" успешно удалена")
             case "list_tables":
